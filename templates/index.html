@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chuyển đổi ngoại tệ</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Chuyển đổi ngoại tệ</h1>
+        <div class="converter">
+            <div class="input-group">
+                <input type="number" id="amount" placeholder="Nhập số tiền">
+                <select id="from-currency">
+                    {% for code, name in currencies.items() %}
+                    <option value="{{ code }}">{{ code }} - {{ name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button onclick="swapCurrencies()" class="swap-btn">
+                ⇄
+            </button>
+            <div class="input-group">
+                <input type="number" id="result" readonly>
+                <select id="to-currency">
+                    {% for code, name in currencies.items() %}
+                    <option value="{{ code }}">{{ code }} - {{ name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button onclick="convertCurrency()" class="convert-btn">Chuyển đổi</button>
+        </div>
+
+        <div class="rate-info" id="rate-info" style="display: none;">
+            <h2>Tỷ giá: <span id="current-rate"></span></h2>
+            <div class="quick-conversions" id="quick-conversions"></div>
+        </div>
+
+        <div class="all-rates" id="all-rates">
+            <h2>Tỷ giá với các loại tiền tệ khác</h2>
+            <div class="rates-grid" id="rates-grid"></div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
