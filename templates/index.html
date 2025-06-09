@@ -2,9 +2,10 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chuyển đổi ngoại tệ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <title>Chuyển đổi ngoại tệ</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -35,11 +36,36 @@
         <div class="rate-info" id="rate-info" style="display: none;">
             <h2>Tỷ giá: <span id="current-rate"></span></h2>
             <div class="quick-conversions" id="quick-conversions"></div>
-        </div>
-
-        <div class="all-rates" id="all-rates">
+        </div>        <div class="all-rates" id="all-rates">
             <h2>Tỷ giá với các loại tiền tệ khác</h2>
             <div class="rates-grid" id="rates-grid"></div>
+        </div>        <!-- Charts Section -->
+        <div class="charts-section">
+            <div class="chart-container">
+                <button class="chart-export-btn" onclick="exportChart('comparisonChart', 'currency-comparison.png')">📥 Export</button>
+                <h2>So sánh tỷ giá</h2>
+                <div class="chart-controls">
+                    <select id="base-currency-chart">
+                        {% for code, name in currencies.items() %}
+                        <option value="{{ code }}">{{ code }} - {{ name }}</option>
+                        {% endfor %}
+                    </select>
+                    <button onclick="updateCharts()" class="update-chart-btn">Cập nhật biểu đồ</button>
+                </div>
+                <canvas id="comparisonChart"></canvas>
+            </div>
+
+            <div class="chart-container">
+                <button class="chart-export-btn" onclick="exportChart('topCurrenciesChart', 'top-currencies.png')">📥 Export</button>
+                <h2>Top 10 loại tiền mạnh nhất</h2>
+                <canvas id="topCurrenciesChart"></canvas>
+            </div>
+
+            <div class="chart-container">
+                <button class="chart-export-btn" onclick="exportChart('distributionChart', 'currency-distribution.png')">📥 Export</button>
+                <h2>Phân bố giá trị</h2>
+                <canvas id="distributionChart"></canvas>
+            </div>
         </div>
     </div>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
